@@ -1,82 +1,101 @@
-let path = [];
-
-class Tree {
-    constructor (value) {
-        this.value = value
-        this.children = {left: null, right: null}
-    }
-
-    addChild(value) {
-        const openNode = this.findLocation(this, value)
-        const newTree = new Tree(value);
-        openNode.node.children[openNode.place] = newTree;
-        return newTree;
-    }
-
-    search(value) {
-        const targetChild = this.findLocation(this, value)
-    }
-
-    findLocation(node, value) {
-        path.push(node.value);
-        const updatedPath = path;
-        if(node.value > value) {
-            if(node.children.left === null) {
-                path = [];
-                return {node: node, place: 'left', path: updatedPath}
-            } else {
-                return this.findLocation(node.children.left, value)
-            }
-        } else {
-            if(node.children.right === null) {
-                path = [];
-                return {node: node, place: 'right', path: updatedPath}
-            } else {
-                return this.findLocation(node.children.right, value)
-            }
+class BinarySearchTree  {
+    constructor(value){
+      this.left = null;
+      this.right = null;
+      this.leafList = [];
+      this.value = value;
+      }
+  
+  
+  
+  
+    insert(value) {
+      //make a leaf with value of value
+      var leaf = new BinarySearchTree(value);
+      this.leafList.push(leaf);
+  
+      var crawl = function(object){
+        if(object === undefined){
+          object = this;
         }
-    }
-    countEdges (node1, node2) {
-        debugger;
-        const path1 = this.findLocation(node1).path;
-        const path2 = this.findLocation(node2).path;
-        console.log(path1)
-        const shortest = path1.length < path2.length ? path1 : path2;
-        const longest = path1.length > path2.length ? path1 : path2;
-        for (let i = 0; i < shortest.length; i++) {
-            if (longest.includes(shortest[i]))  {
-                
+          if(value === object.value){
+            return undefined;
+          }
+          //check if value is greater than this.value
+          if(value > object.value){
+          // is so, see if right child is null
+            if(object.right === null){
+              //if so add new leaf to this.right
+              object.right = leaf;
             }
-        }
-        //find nearest common ancstor 
-        //crawl tree to find node 1
-            //look backwards from 1 to see if 2 is also a decendant 
-            //search for each node from common ancestor and increment count 
-            //return sum of steps from 1 and 2
+            else {
+              return crawl(object.right);
+            }
+          }
+          if(value < object.value){
+            if(object.left === null){
+              object.left = leaf;
+            }
+            else{
+              return crawl(object.left);
+            }
+          }
+  
+      }
+      crawl.call(this);
+  
     }
- 
-}
-
-
-
-const buildTree = (values, n, node1, node2) => {
-    const tree = new Tree(values.shift())
-    values.map(value => tree.addChild(value))
-    tree.countEdges(node1, node2);
-    console.log(tree)
-    return tree;
-    
-}
-
-buildTree([8,1,4,5,2,11,3], null, 3, 11)
-
-
-// const tree = new Tree(8);
-// console.log(tree)
-// const branch = tree.addChild(2);
-// const branch2 = tree.addChild(10);
-// const leaf = tree.addChild(3);
-// const leaf2 = tree.addChild(12);
-// const leaf3 = tree.addChild(6);
-// const leaf4 = tree.addChild(7);
-// console.log(tree)
+  
+  
+  
+  
+  
+  
+  
+    contains(value, object){
+      //if object is undefined, set equal to this
+      if(object === undefined){
+        object = this;
+      }
+  
+      //if value is equal to object.value
+      if(value === object.value){
+        //return true
+        console.log(true);
+        return true
+      }
+  
+      //if value is greater than object.value
+      if(value > object.value){
+        //check if object.right is null
+        if(object.right === null){
+          //return false
+          return false;
+        }
+        //call contains on (value, object.right)
+        return this.contains(value, object.right);
+      }
+  
+      //if value is less than object.value
+      if(value < object.value){
+        //check if object.left is null
+        if(object.left === null){
+          // if null, return false
+          return false;
+        }
+        //call contains on (value, object.left)
+         this.contains(value,object.left);
+      }
+    }
+  
+    depthFirstLog(cb){
+      this.leafList.unshift(this)
+      for(var i = 0; i < this.leafList.length; i++){
+        cb(this.leafList[i].value);
+      }
+    }
+  
+  
+  
+  
+  };
