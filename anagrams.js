@@ -32,13 +32,7 @@ const checkWord = (baseWord, word) => {
     }
 
     
-}
-// console.log('true', checkWord('hello', 'hello'))
-// console.log('false', checkWord('hello', 'helno'))
 
-// w: check if any of the words are anograms of word. if so push them to new array adn return array
-// eliminate obvious missmathces
-// eliminate if lenght is not equal 
 const result = anagrams('abba', ['aabb', 'abcd', 'bbaa', 'dada'])
 //  => ['aabb', 'bbaa']
 console.log(result)
