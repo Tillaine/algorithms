@@ -1,30 +1,28 @@
 function titleCase(title, minorWords) {
-  const titleArray = title.split(' ')
-  const minorArray = minorWords.split(' ')
-  let result = convertWord(minorArray[0], null)
-  
-  for (i = 1; i < titleArray.length; i++) {
-      result += ' ' + convertWord(titleArray[i], minorArray) 
+  if(title === '') {
+    return title;
   }
-  //loop through title array from [1] converting non minor words 
-    //and adding them to result string
-// return result string 
+    const titleArray = title.toLowerCase().split(' ')
+    const minorArray = minorWords ? minorWords.toLowerCase().split(' ') : '';
+    let result = convertWord( titleArray[0], minorArray )
 
-return result;
-
-
+    for (i = 1; i < titleArray.length; i++) {
+        result += ' ' + convertWord(titleArray[i], minorArray, true) 
+    }
+    return result;
+  
 }
 
-const convertWord = (word, minorWords) => {
-    if (minorWords !== null && minorWords.includes(word)) {
+const convertWord = (word, minorWords, firstLetter) => {
+    if ( minorWords.includes(word) && firstLetter === true ) {
        return word; 
     } else {
         let first = word[0].toUpperCase();
-        let end = word.slice(1, word.length).toLowerCase()
+        let end = word.slice(1, word.length)
         return first + end;
     }
 }
 
-console.log(titleCase('a clash of KINGS', 'a an the of'))
+console.log(titleCase('THE WIND IN THE WILLOWS', 'The In'))
 
 
