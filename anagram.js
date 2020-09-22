@@ -26,5 +26,5 @@ const createFreqCounter = (string) => {
     return freqObj;
 }
 
-console.log(anagram('hello', 'hELlo'))
+console.log(anagram('', ''))
 // subsetA(arr)
